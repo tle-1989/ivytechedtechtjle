@@ -57,7 +57,7 @@
         <li><strong style="color: #8DC63F">Providing students</strong> with cutting-edge tools and resources</li>
         <li><strong style="color: #8DC63F">Fostering innovation</strong> in educational delivery methods</li>
     </ul>
-
+    
     <h2 style="color: #006648">🔍 What You'll Find Here</h2>
     <ul>
         <li><strong style="color: #41AD49">📖 Educational Resources</strong>: Curated materials and guides for students and faculty</li>
