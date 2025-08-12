@@ -1,0 +1,1394 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Tools for Faculty</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+        
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+        }
+        
+        .header {
+            background: linear-gradient(135deg, #4f46e5 0%, #7c3aed 100%);
+            color: white;
+            text-align: center;
+            padding: 40px 20px;
+        }
+        
+        .header h1 {
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+        }
+        
+        .header p {
+            font-size: 1.2rem;
+            opacity: 0.9;
+        }
+        
+        .tools-grid {
+            padding: 40px 30px;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+            gap: 25px;
+        }
+        
+        .tool-card {
+            background: white;
+            border-radius: 15px;
+            padding: 25px;
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.08);
+            border: 1px solid rgba(0, 0, 0, 0.05);
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .tool-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: linear-gradient(135deg, #4f46e5, #7c3aed);
+        }
+        
+        .tool-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.12);
+        }
+        
+        .tool-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 15px;
+        }
+        
+        .tool-name {
+            font-size: 1.4rem;
+            font-weight: 700;
+            color: #1e293b;
+            margin: 0;
+        }
+        
+        .tool-name a {
+            color: #4f46e5;
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+        
+        .tool-name a:hover {
+            color: #7c3aed;
+            text-decoration: underline;
+        }
+        
+        .pricing {
+            display: flex;
+            flex-direction: column;
+            align-items: flex-end;
+            gap: 5px;
+        }
+        
+        .price-tag {
+            padding: 6px 12px;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        
+        .free {
+            background: linear-gradient(135deg, #10b981, #059669);
+            color: white;
+        }
+        
+        .paid {
+            background: linear-gradient(135deg, #f59e0b, #d97706);
+            color: white;
+        }
+        
+        .freemium {
+            background: linear-gradient(135deg, #8b5cf6, #7c3aed);
+            color: white;
+        }
+        
+        .price-details {
+            font-size: 0.75rem;
+            color: #64748b;
+            margin-top: 2px;
+            text-align: right;
+        }
+        
+        .description {
+            color: #475569;
+            line-height: 1.6;
+            margin-bottom: 20px;
+            font-size: 0.95rem;
+        }
+        
+        .faculty-benefits {
+            background: linear-gradient(135deg, #f0f9ff, #e0f2fe);
+            border-radius: 10px;
+            padding: 15px;
+            border-left: 4px solid #0ea5e9;
+        }
+        
+        .benefits-title {
+            font-weight: 600;
+            color: #0c4a6e;
+            margin-bottom: 8px;
+            font-size: 0.9rem;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .benefits-title::before {
+            content: "🎓";
+            font-size: 1rem;
+        }
+        
+        .benefits-text {
+            color: #0369a1;
+            font-size: 0.85rem;
+            line-height: 1.5;
+        }
+        
+        .search-filter {
+            padding: 30px;
+            background: rgba(255, 255, 255, 0.7);
+            backdrop-filter: blur(5px);
+            border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+        }
+        
+        .search-input {
+            width: 100%;
+            padding: 15px 20px;
+            border: 2px solid #e2e8f0;
+            border-radius: 50px;
+            font-size: 1rem;
+            outline: none;
+            transition: all 0.3s ease;
+            background: white;
+        }
+        
+        .search-input:focus {
+            border-color: #4f46e5;
+            box-shadow: 0 0 0 3px rgba(79, 70, 229, 0.1);
+        }
+        
+        .filter-buttons {
+            display: flex;
+            gap: 10px;
+            margin-top: 15px;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+        
+        .filter-btn {
+            padding: 8px 16px;
+            border: 2px solid #e2e8f0;
+            background: white;
+            border-radius: 25px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-size: 0.85rem;
+            font-weight: 500;
+        }
+        
+        .filter-btn:hover, .filter-btn.active {
+            border-color: #4f46e5;
+            background: #4f46e5;
+            color: white;
+        }
+        
+        .no-results {
+            text-align: center;
+            padding: 60px 20px;
+            color: #64748b;
+            font-size: 1.1rem;
+        }
+        
+        @media (max-width: 768px) {
+            .tools-grid {
+                grid-template-columns: 1fr;
+                padding: 20px 15px;
+                gap: 20px;
+            }
+            
+            .header h1 {
+                font-size: 2rem;
+            }
+            
+            .tool-header {
+                flex-direction: column;
+                gap: 10px;
+            }
+            
+            .pricing {
+                align-items: flex-start;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>AI Tools for Faculty</h1>
+            <p>Comprehensive guide to AI-powered tools for education and research</p>
+        </div>
+        
+        <div class="search-filter">
+            <input type="text" class="search-input" placeholder="Search tools by name, description, or benefits..." id="searchInput">
+            <div class="filter-buttons">
+                <button class="filter-btn active" data-filter="all">All Tools</button>
+                <button class="filter-btn" data-filter="free">Free Only</button>
+                <button class="filter-btn" data-filter="freemium">Freemium</button>
+                <button class="filter-btn" data-filter="paid">Paid Only</button>
+            </div>
+        </div>
+        
+        <div class="tools-grid" id="toolsGrid">
+            <!-- AI Detector Tool -->
+            <div class="tool-card" data-pricing="free">
+                <div class="tool-header">
+                    <h3 class="tool-name"><a href="https://aidetector.ai/" target="_blank">AI Detector Tool</a></h3>
+                    <div class="pricing">
+                        <span class="price-tag free">Free</span>
+                    </div>
+                </div>
+                <div class="description">
+                    Detects AI-generated content in text submissions to help maintain academic integrity and identify potentially artificial writing.
+                </div>
+                <div class="faculty-benefits">
+                    <div class="benefits-title">Faculty Benefits</div>
+                    <div class="benefits-text">Ensure academic integrity by detecting AI-generated assignments, maintain fair assessment standards, and provide feedback on authentic vs. artificial content to students.</div>
+                </div>
+            </div>
+
+            <!-- Awesome ChatGPT -->
+            <div class="tool-card" data-pricing="free">
+                <div class="tool-header">
+                    <h3 class="tool-name"><a href="https://github.com/f/awesome-chatgpt-prompts" target="_blank">Awesome ChatGPT</a></h3>
+                    <div class="pricing">
+                        <span class="price-tag free">Free</span>
+                    </div>
+                </div>
+                <div class="description">
+                    A curated collection of ChatGPT prompts, tools, and resources for various applications including education, research, and productivity.
+                </div>
+                <div class="faculty-benefits">
+                    <div class="benefits-title">Faculty Benefits</div>
+                    <div class="benefits-text">Access ready-made prompts for lesson planning, research assistance, and student engagement. Save time with proven AI interaction strategies and discover new applications for teaching.</div>
+                </div>
+            </div>
+
+            <!-- Beautiful.ai -->
+            <div class="tool-card" data-pricing="freemium">
+                <div class="tool-header">
+                    <h3 class="tool-name"><a href="https://www.beautiful.ai/" target="_blank">Beautiful.ai</a></h3>
+                    <div class="pricing">
+                        <span class="price-tag freemium">Freemium</span>
+                        <div class="price-details">Pro: $12/month<br>Team: $40/month</div>
+                    </div>
+                </div>
+                <div class="description">
+                    AI-powered presentation software that automatically designs slides with smart templates and intelligent formatting for professional presentations.
+                </div>
+                <div class="faculty-benefits">
+                    <div class="benefits-title">Faculty Benefits</div>
+                    <div class="benefits-text">Create stunning lecture slides quickly, maintain consistent visual branding across courses, and focus on content while AI handles design elements and layout optimization.</div>
+                </div>
+            </div>
+
+            <!-- BrandMark -->
+            <div class="tool-card" data-pricing="paid">
+                <div class="tool-header">
+                    <h3 class="tool-name"><a href="https://brandmark.io/" target="_blank">BrandMark</a></h3>
+                    <div class="pricing">
+                        <span class="price-tag paid">Paid</span>
+                        <div class="price-details">Basic: $25 one-time<br>Designer: $65 one-time</div>
+                    </div>
+                </div>
+                <div class="description">
+                    AI-powered logo and brand identity generator that creates professional logos, business cards, and brand assets using machine learning.
+                </div>
+                <div class="faculty-benefits">
+                    <div class="benefits-title">Faculty Benefits</div>
+                    <div class="benefits-text">Create professional branding for research projects, course materials, or academic initiatives. Generate visual identity for conferences, workshops, or academic publications.</div>
+                </div>
+            </div>
+
+            <!-- Brisk -->
+            <div class="tool-card" data-pricing="free">
+                <div class="tool-header">
+                    <h3 class="tool-name"><a href="https://www.briskteaching.com/" target="_blank">Brisk</a></h3>
+                    <div class="pricing">
+                        <span class="price-tag free">Free</span>
+                    </div>
+                </div>
+                <div class="description">
+                    Chrome extension that provides AI-powered feedback tools for Google Docs, helping educators provide faster and more effective feedback on student work.
+                </div>
+                <div class="faculty-benefits">
+                    <div class="benefits-title">Faculty Benefits</div>
+                    <div class="benefits-text">Streamline grading process, provide consistent feedback across assignments, generate rubric-based assessments, and save time while maintaining quality feedback standards.</div>
+                </div>
+            </div>
+
+            <!-- Brushless.AI -->
+            <div class="tool-card" data-pricing="freemium">
+                <div class="tool-header">
+                    <h3 class="tool-name"><a href="https://brushless.ai/" target="_blank">Brushless.AI</a></h3>
+                    <div class="pricing">
+                        <span class="price-tag freemium">Freemium</span>
+                        <div class="price-details">Premium features vary</div>
+                    </div>
+                </div>
+                <div class="description">
+                    AI-powered writing assistant that helps with content creation, editing, and optimization across various writing tasks and formats.
+                </div>
+                <div class="faculty-benefits">
+                    <div class="benefits-title">Faculty Benefits</div>
+                    <div class="benefits-text">Enhance research writing, create course materials more efficiently, assist with grant proposals, and improve academic communication through AI-powered editing suggestions.</div>
+                </div>
+            </div>
+
+            <!-- ChatGPT -->
+            <div class="tool-card" data-pricing="freemium">
+                <div class="tool-header">
+                    <h3 class="tool-name"><a href="https://chat.openai.com/" target="_blank">ChatGPT</a></h3>
+                    <div class="pricing">
+                        <span class="price-tag freemium">Freemium</span>
+                        <div class="price-details">Plus: $20/month<br>Team: $25/user/month</div>
+                    </div>
+                </div>
+                <div class="description">
+                    Advanced AI language model for conversational AI, content generation, coding assistance, research help, and educational support across multiple disciplines.
+                </div>
+                <div class="faculty-benefits">
+                    <div class="benefits-title">Faculty Benefits</div>
+                    <div class="benefits-text">Create lesson plans, generate quiz questions, explain complex concepts, assist with research ideation, and provide personalized tutoring support for students.</div>
+                </div>
+            </div>
+
+            <!-- Claude -->
+            <div class="tool-card" data-pricing="freemium">
+                <div class="tool-header">
+                    <h3 class="tool-name"><a href="https://claude.ai/" target="_blank">Claude</a></h3>
+                    <div class="pricing">
+                        <span class="price-tag freemium">Freemium</span>
+                        <div class="price-details">Pro: $20/month<br>Team: $25/user/month</div>
+                    </div>
+                </div>
+                <div class="description">
+                    AI assistant focused on helpful, harmless, and honest interactions, capable of complex reasoning, writing, analysis, and educational support.
+                </div>
+                <div class="faculty-benefits">
+                    <div class="benefits-title">Faculty Benefits</div>
+                    <div class="benefits-text">Analyze academic texts, provide detailed feedback on student work, assist with curriculum development, and engage in sophisticated discussions about complex academic topics.</div>
+                </div>
+            </div>
+
+            <!-- Copilot -->
+            <div class="tool-card" data-pricing="freemium">
+                <div class="tool-header">
+                    <h3 class="tool-name"><a href="https://copilot.microsoft.com/" target="_blank">Copilot</a></h3>
+                    <div class="pricing">
+                        <span class="price-tag freemium">Freemium</span>
+                        <div class="price-details">Pro: $20/month<br>Business: $30/user/month</div>
+                    </div>
+                </div>
+                <div class="description">
+                    Microsoft's AI-powered assistant integrated into Office 365, providing intelligent assistance for documents, presentations, emails, and data analysis.
+                </div>
+                <div class="faculty-benefits">
+                    <div class="benefits-title">Faculty Benefits</div>
+                    <div class="benefits-text">Enhance productivity in Word, Excel, and PowerPoint, automate administrative tasks, generate course content, and streamline communication with students and colleagues.</div>
+                </div>
+            </div>
+
+            <!-- Corcel AI -->
+            <div class="tool-card" data-pricing="paid">
+                <div class="tool-header">
+                    <h3 class="tool-name"><a href="https://corcel.ai/" target="_blank">Corcel AI</a></h3>
+                    <div class="pricing">
+                        <span class="price-tag paid">Paid</span>
+                        <div class="price-details">Custom pricing</div>
+                    </div>
+                </div>
+                <div class="description">
+                    Specialized AI platform for advanced data analysis, machine learning model development, and custom AI solution deployment.
+                </div>
+                <div class="faculty-benefits">
+                    <div class="benefits-title">Faculty Benefits</div>
+                    <div class="benefits-text">Conduct advanced research analytics, develop custom AI models for specific academic applications, and teach advanced AI/ML concepts with practical tools.</div>
+                </div>
+            </div>
+
+            <!-- Deepseek LLM -->
+            <div class="tool-card" data-pricing="freemium">
+                <div class="tool-header">
+                    <h3 class="tool-name"><a href="https://chat.deepseek.com/" target="_blank">Deepseek LLM</a></h3>
+                    <div class="pricing">
+                        <span class="price-tag freemium">Freemium</span>
+                        <div class="price-details">API pricing varies</div>
+                    </div>
+                </div>
+                <div class="description">
+                    Open-source large language model focused on code generation, mathematical reasoning, and technical problem-solving with competitive performance.
+                </div>
+                <div class="faculty-benefits">
+                    <div class="benefits-title">Faculty Benefits</div>
+                    <div class="benefits-text">Teach programming concepts, assist with mathematical problem-solving, support computer science curricula, and provide coding assistance for research projects.</div>
+                </div>
+            </div>
+
+            <!-- Elicit -->
+            <div class="tool-card" data-pricing="freemium">
+                <div class="tool-header">
+                    <h3 class="tool-name"><a href="https://elicit.com/" target="_blank">Elicit</a></h3>
+                    <div class="pricing">
+                        <span class="price-tag freemium">Freemium</span>
+                        <div class="price-details">Plus: $10/month<br>Pro: $42/month</div>
+                    </div>
+                </div>
+                <div class="description">
+                    AI research assistant that helps find, summarize, and extract insights from academic papers and research literature using machine learning.
+                </div>
+                <div class="faculty-benefits">
+                    <div class="benefits-title">Faculty Benefits</div>
+                    <div class="benefits-text">Accelerate literature reviews, discover relevant research papers, extract key findings quickly, and stay current with developments in your field.</div>
+                </div>
+            </div>
+
+            <!-- Feedback Fruits -->
+            <div class="tool-card" data-pricing="paid">
+                <div class="tool-header">
+                    <h3 class="tool-name"><a href="https://feedbackfruits.com/" target="_blank">Feedback Fruits</a></h3>
+                    <div class="pricing">
+                        <span class="price-tag paid">Paid</span>
+                        <div class="price-details">Contact for pricing</div>
+                    </div>
+                </div>
+                <div class="description">
+                    Educational technology platform offering AI-powered peer review, automated feedback, and interactive learning tools for higher education.
+                </div>
+                <div class="faculty-benefits">
+                    <div class="benefits-title">Faculty Benefits</div>
+                    <div class="benefits-text">Facilitate peer learning, automate initial feedback processes, track student engagement, and create interactive assignments that promote active learning.</div>
+                </div>
+            </div>
+
+            <!-- Future House -->
+            <div class="tool-card" data-pricing="freemium">
+                <div class="tool-header">
+                    <h3 class="tool-name"><a href="https://futurehouse.org/" target="_blank">Future House</a></h3>
+                    <div class="pricing">
+                        <span class="price-tag freemium">Freemium</span>
+                        <div class="price-details">Premium features available</div>
+                    </div>
+                </div>
+                <div class="description">
+                    AI-powered research platform designed to accelerate scientific discovery through automated literature analysis and hypothesis generation.
+                </div>
+                <div class="faculty-benefits">
+                    <div class="benefits-title">Faculty Benefits</div>
+                    <div class="benefits-text">Generate research hypotheses, identify research gaps, accelerate scientific literature review, and explore interdisciplinary connections in your research area.</div>
+                </div>
+            </div>
+
+            <!-- Gamma -->
+            <div class="tool-card" data-pricing="freemium">
+                <div class="tool-header">
+                    <h3 class="tool-name"><a href="https://gamma.app/" target="_blank">Gamma</a></h3>
+                    <div class="pricing">
+                        <span class="price-tag freemium">Freemium</span>
+                        <div class="price-details">Plus: $8/month<br>Pro: $16/month</div>
+                    </div>
+                </div>
+                <div class="description">
+                    AI-powered presentation and document creation platform that generates visually appealing slides, documents, and web pages from text prompts.
+                </div>
+                <div class="faculty-benefits">
+                    <div class="benefits-title">Faculty Benefits</div>
+                    <div class="benefits-text">Create engaging lecture materials quickly, develop visually appealing course content, build interactive presentations, and produce professional documents with minimal design effort.</div>
+                </div>
+            </div>
+
+            <!-- Gemini -->
+            <div class="tool-card" data-pricing="freemium">
+                <div class="tool-header">
+                    <h3 class="tool-name"><a href="https://gemini.google.com/" target="_blank">Gemini</a></h3>
+                    <div class="pricing">
+                        <span class="price-tag freemium">Freemium</span>
+                        <div class="price-details">Advanced: $20/month</div>
+                    </div>
+                </div>
+                <div class="description">
+                    Google's advanced AI model capable of multimodal understanding, integrating text, images, and code for comprehensive assistance and analysis.
+                </div>
+                <div class="faculty-benefits">
+                    <div class="benefits-title">Faculty Benefits</div>
+                    <div class="benefits-text">Analyze images and documents, integrate with Google Workspace, assist with multimodal research, and provide comprehensive support for diverse academic tasks.</div>
+                </div>
+            </div>
+
+            <!-- GetMarked -->
+            <div class="tool-card" data-pricing="paid">
+                <div class="tool-header">
+                    <h3 class="tool-name"><a href="https://getmarked.ai/" target="_blank">GetMarked</a></h3>
+                    <div class="pricing">
+                        <span class="price-tag paid">Paid</span>
+                        <div class="price-details">Subscription-based</div>
+                    </div>
+                </div>
+                <div class="description">
+                    AI-powered grading and feedback platform that automates assessment processes while providing detailed, constructive feedback to students.
+                </div>
+                <div class="faculty-benefits">
+                    <div class="benefits-title">Faculty Benefits</div>
+                    <div class="benefits-text">Reduce grading time significantly, provide consistent feedback across all students, maintain objectivity in assessment, and focus more time on teaching and mentoring.</div>
+                </div>
+            </div>
+
+            <!-- Goblin Tools -->
+            <div class="tool-card" data-pricing="freemium">
+                <div class="tool-header">
+                    <h3 class="tool-name"><a href="https://goblin.tools/" target="_blank">Goblin Tools</a></h3>
+                    <div class="pricing">
+                        <span class="price-tag freemium">Freemium</span>
+                        <div class="price-details">Donations supported</div>
+                    </div>
+                </div>
+                <div class="description">
+                    Collection of AI-powered productivity tools designed to help with task breakdown, executive function, and organization challenges.
+                </div>
+                <div class="faculty-benefits">
+                    <div class="benefits-title">Faculty Benefits</div>
+                    <div class="benefits-text">Break down complex research projects into manageable tasks, organize academic workflows, support students with executive function challenges, and improve personal productivity.</div>
+                </div>
+            </div>
+
+            <!-- GROK -->
+            <div class="tool-card" data-pricing="paid">
+                <div class="tool-header">
+                    <h3 class="tool-name"><a href="https://x.ai/" target="_blank">GROK</a></h3>
+                    <div class="pricing">
+                        <span class="price-tag paid">Paid</span>
+                        <div class="price-details">X Premium+ required</div>
+                    </div>
+                </div>
+                <div class="description">
+                    X's AI assistant with real-time web access, designed for conversational AI with up-to-date information and unique personality traits.
+                </div>
+                <div class="faculty-benefits">
+                    <div class="benefits-title">Faculty Benefits</div>
+                    <div class="benefits-text">Access current events and trends for course content, engage with real-time information for research, and incorporate contemporary examples into academic discussions.</div>
+                </div>
+            </div>
+
+            <!-- Harmonize -->
+            <div class="tool-card" data-pricing="paid">
+                <div class="tool-header">
+                    <h3 class="tool-name"><a href="https://harmonize.com/" target="_blank">Harmonize</a></h3>
+                    <div class="pricing">
+                        <span class="price-tag paid">Paid</span>
+                        <div class="price-details">Custom pricing</div>
+                    </div>
+                </div>
+                <div class="description">
+                    AI-powered collaboration platform that streamlines team communication, project management, and workflow optimization for educational institutions.
+                </div>
+                <div class="faculty-benefits">
+                    <div class="benefits-title">Faculty Benefits</div>
+                    <div class="benefits-text">Coordinate research collaborations, manage department projects efficiently, streamline committee work, and improve communication with colleagues and students.</div>
+                </div>
+            </div>
+
+            <!-- Heygen Avatar Generator -->
+            <div class="tool-card" data-pricing="freemium">
+                <div class="tool-header">
+                    <h3 class="tool-name"><a href="https://heygen.com/" target="_blank">Heygen Avatar Generator</a></h3>
+                    <div class="pricing">
+                        <span class="price-tag freemium">Freemium</span>
+                        <div class="price-details">Creator: $24/month<br>Business: $120/month</div>
+                    </div>
+                </div>
+                <div class="description">
+                    AI-powered platform for creating realistic AI avatars and videos for presentations, courses, and digital content creation.
+                </div>
+                <div class="faculty-benefits">
+                    <div class="benefits-title">Faculty Benefits</div>
+                    <div class="benefits-text">Create engaging video lectures, develop multilingual course content, produce consistent video presentations, and enhance distance learning experiences.</div>
+                </div>
+            </div>
+
+            <!-- Ideogram 2.0 -->
+            <div class="tool-card" data-pricing="freemium">
+                <div class="tool-header">
+                    <h3 class="tool-name"><a href="https://ideogram.ai/" target="_blank">Ideogram 2.0</a></h3>
+                    <div class="pricing">
+                        <span class="price-tag freemium">Freemium</span>
+                        <div class="price-details">Plus: $8/month<br>Pro: $20/month</div>
+                    </div>
+                </div>
+                <div class="description">
+                    Advanced AI image generation platform specializing in creating high-quality images with accurate text rendering and creative design capabilities.
+                </div>
+                <div class="faculty-benefits">
+                    <div class="benefits-title">Faculty Benefits</div>
+                    <div class="benefits-text">Create custom educational graphics, design course materials, generate visual aids for presentations, and produce illustrations for academic publications.</div>
+                </div>
+            </div>
+
+            <!-- Invideo -->
+            <div class="tool-card" data-pricing="freemium">
+                <div class="tool-header">
+                    <h3 class="tool-name"><a href="https://invideo.io/" target="_blank">Invideo</a></h3>
+                    <div class="pricing">
+                        <span class="price-tag freemium">Freemium</span>
+                        <div class="price-details">Plus: $15/month<br>Max: $30/month</div>
+                    </div>
+                </div>
+                <div class="description">
+                    AI-powered video creation platform that transforms text into professional videos with automated editing, voice-overs, and visual elements.
+                </div>
+                <div class="faculty-benefits">
+                    <div class="benefits-title">Faculty Benefits</div>
+                    <div class="benefits-text">Create engaging educational videos, develop course promotional materials, produce lecture summaries, and enhance online learning with multimedia content.</div>
+                </div>
+            </div>
+
+            <!-- kinetix.tech -->
+            <div class="tool-card" data-pricing="freemium">
+                <div class="tool-header">
+                    <h3 class="tool-name"><a href="https://kinetix.tech/" target="_blank">kinetix.tech</a></h3>
+                    <div class="pricing">
+                        <span class="price-tag freemium">Freemium</span>
+                        <div class="price-details">Pro features available</div>
+                    </div>
+                </div>
+                <div class="description">
+                    AI-powered animation platform that creates 3D animations and avatars from simple inputs, focusing on motion capture and character animation.
+                </div>
+                <div class="faculty-benefits">
+                    <div class="benefits-title">Faculty Benefits</div>
+                    <div class="benefits-text">Create animated content for courses, develop engaging visual demonstrations, produce interactive educational materials, and enhance STEM education with 3D animations.</div>
+                </div>
+            </div>
+
+            <!-- Learvo -->
+            <div class="tool-card" data-pricing="paid">
+                <div class="tool-header">
+                    <h3 class="tool-name"><a href="https://learvo.com/" target="_blank">Learvo</a></h3>
+                    <div class="pricing">
+                        <span class="price-tag paid">Paid</span>
+                        <div class="price-details">Subscription required</div>
+                    </div>
+                </div>
+                <div class="description">
+                    AI-powered learning management platform that personalizes educational content and provides adaptive learning experiences for students.
+                </div>
+                <div class="faculty-benefits">
+                    <div class="benefits-title">Faculty Benefits</div>
+                    <div class="benefits-text">Personalize learning paths for students, track learning progress effectively, identify struggling students early, and optimize course delivery based on analytics.</div>
+                </div>
+            </div>-tag freemium">Freemium</span>
+                        <div class="price-details">Pro: $20/month<br>Team: $25/user/month</div>
+                    </div>
+                </div>
+                <div class="description">
+                    AI assistant focused on helpful, harmless, and honest interactions, capable of complex reasoning, writing, analysis, and educational support.
+                </div>
+                <div class="faculty-benefits">
+                    <div class="benefits-title">Faculty Benefits</div>
+                    <div class="benefits-text">Analyze academic texts, provide detailed feedback on student work, assist with curriculum development, and engage in sophisticated discussions about complex academic topics.</div>
+                </div>
+            </div>
+
+            <!-- Copilot -->
+            <div class="tool-card" data-pricing="freemium">
+                <div class="tool-header">
+                    <h3 class="tool-name">Copilot</h3>
+                    <div class="pricing">
+                        <span class="price-tag freemium">Freemium</span>
+                        <div class="price-details">Pro: $20/month<br>Business: $30/user/month</div>
+                    </div>
+                </div>
+                <div class="description">
+                    Microsoft's AI-powered assistant integrated into Office 365, providing intelligent assistance for documents, presentations, emails, and data analysis.
+                </div>
+                <div class="faculty-benefits">
+                    <div class="benefits-title">Faculty Benefits</div>
+                    <div class="benefits-text">Enhance productivity in Word, Excel, and PowerPoint, automate administrative tasks, generate course content, and streamline communication with students and colleagues.</div>
+                </div>
+            </div>
+
+            <!-- Corcel AI -->
+            <div class="tool-card" data-pricing="paid">
+                <div class="tool-header">
+                    <h3 class="tool-name">Corcel AI</h3>
+                    <div class="pricing">
+                        <span class="price-tag paid">Paid</span>
+                        <div class="price-details">Custom pricing</div>
+                    </div>
+                </div>
+                <div class="description">
+                    Specialized AI platform for advanced data analysis, machine learning model development, and custom AI solution deployment.
+                </div>
+                <div class="faculty-benefits">
+                    <div class="benefits-title">Faculty Benefits</div>
+                    <div class="benefits-text">Conduct advanced research analytics, develop custom AI models for specific academic applications, and teach advanced AI/ML concepts with practical tools.</div>
+                </div>
+            </div>
+
+            <!-- Deepseek LLM -->
+            <div class="tool-card" data-pricing="freemium">
+                <div class="tool-header">
+                    <h3 class="tool-name">Deepseek LLM</h3>
+                    <div class="pricing">
+                        <span class="price-tag freemium">Freemium</span>
+                        <div class="price-details">API pricing varies</div>
+                    </div>
+                </div>
+                <div class="description">
+                    Open-source large language model focused on code generation, mathematical reasoning, and technical problem-solving with competitive performance.
+                </div>
+                <div class="faculty-benefits">
+                    <div class="benefits-title">Faculty Benefits</div>
+                    <div class="benefits-text">Teach programming concepts, assist with mathematical problem-solving, support computer science curricula, and provide coding assistance for research projects.</div>
+                </div>
+            </div>
+
+            <!-- Elicit -->
+            <div class="tool-card" data-pricing="freemium">
+                <div class="tool-header">
+                    <h3 class="tool-name">Elicit</h3>
+                    <div class="pricing">
+                        <span class="price-tag freemium">Freemium</span>
+                        <div class="price-details">Plus: $10/month<br>Pro: $42/month</div>
+                    </div>
+                </div>
+                <div class="description">
+                    AI research assistant that helps find, summarize, and extract insights from academic papers and research literature using machine learning.
+                </div>
+                <div class="faculty-benefits">
+                    <div class="benefits-title">Faculty Benefits</div>
+                    <div class="benefits-text">Accelerate literature reviews, discover relevant research papers, extract key findings quickly, and stay current with developments in your field.</div>
+                </div>
+            </div>
+
+            <!-- Feedback Fruits -->
+            <div class="tool-card" data-pricing="paid">
+                <div class="tool-header">
+                    <h3 class="tool-name">Feedback Fruits</h3>
+                    <div class="pricing">
+                        <span class="price-tag paid">Paid</span>
+                        <div class="price-details">Contact for pricing</div>
+                    </div>
+                </div>
+                <div class="description">
+                    Educational technology platform offering AI-powered peer review, automated feedback, and interactive learning tools for higher education.
+                </div>
+                <div class="faculty-benefits">
+                    <div class="benefits-title">Faculty Benefits</div>
+                    <div class="benefits-text">Facilitate peer learning, automate initial feedback processes, track student engagement, and create interactive assignments that promote active learning.</div>
+                </div>
+            </div>
+
+            <!-- Future House -->
+            <div class="tool-card" data-pricing="freemium">
+                <div class="tool-header">
+                    <h3 class="tool-name">Future House</h3>
+                    <div class="pricing">
+                        <span class="price-tag freemium">Freemium</span>
+                        <div class="price-details">Premium features available</div>
+                    </div>
+                </div>
+                <div class="description">
+                    AI-powered research platform designed to accelerate scientific discovery through automated literature analysis and hypothesis generation.
+                </div>
+                <div class="faculty-benefits">
+                    <div class="benefits-title">Faculty Benefits</div>
+                    <div class="benefits-text">Generate research hypotheses, identify research gaps, accelerate scientific literature review, and explore interdisciplinary connections in your research area.</div>
+                </div>
+            </div>
+
+            <!-- Gamma -->
+            <div class="tool-card" data-pricing="freemium">
+                <div class="tool-header">
+                    <h3 class="tool-name">Gamma</h3>
+                    <div class="pricing">
+                        <span class="price-tag freemium">Freemium</span>
+                        <div class="price-details">Plus: $8/month<br>Pro: $16/month</div>
+                    </div>
+                </div>
+                <div class="description">
+                    AI-powered presentation and document creation platform that generates visually appealing slides, documents, and web pages from text prompts.
+                </div>
+                <div class="faculty-benefits">
+                    <div class="benefits-title">Faculty Benefits</div>
+                    <div class="benefits-text">Create engaging lecture materials quickly, develop visually appealing course content, build interactive presentations, and produce professional documents with minimal design effort.</div>
+                </div>
+            </div>
+
+            <!-- Gemini -->
+            <div class="tool-card" data-pricing="freemium">
+                <div class="tool-header">
+                    <h3 class="tool-name">Gemini</h3>
+                    <div class="pricing">
+                        <span class="price-tag freemium">Freemium</span>
+                        <div class="price-details">Advanced: $20/month</div>
+                    </div>
+                </div>
+                <div class="description">
+                    Google's advanced AI model capable of multimodal understanding, integrating text, images, and code for comprehensive assistance and analysis.
+                </div>
+                <div class="faculty-benefits">
+                    <div class="benefits-title">Faculty Benefits</div>
+                    <div class="benefits-text">Analyze images and documents, integrate with Google Workspace, assist with multimodal research, and provide comprehensive support for diverse academic tasks.</div>
+                </div>
+            </div>
+
+            <!-- GetMarked -->
+            <div class="tool-card" data-pricing="paid">
+                <div class="tool-header">
+                    <h3 class="tool-name">GetMarked</h3>
+                    <div class="pricing">
+                        <span class="price-tag paid">Paid</span>
+                        <div class="price-details">Subscription-based</div>
+                    </div>
+                </div>
+                <div class="description">
+                    AI-powered grading and feedback platform that automates assessment processes while providing detailed, constructive feedback to students.
+                </div>
+                <div class="faculty-benefits">
+                    <div class="benefits-title">Faculty Benefits</div>
+                    <div class="benefits-text">Reduce grading time significantly, provide consistent feedback across all students, maintain objectivity in assessment, and focus more time on teaching and mentoring.</div>
+                </div>
+            </div>
+
+            <!-- Goblin Tools -->
+            <div class="tool-card" data-pricing="freemium">
+                <div class="tool-header">
+                    <h3 class="tool-name">Goblin Tools</h3>
+                    <div class="pricing">
+                        <span class="price-tag freemium">Freemium</span>
+                        <div class="price-details">Donations supported</div>
+                    </div>
+                </div>
+                <div class="description">
+                    Collection of AI-powered productivity tools designed to help with task breakdown, executive function, and organization challenges.
+                </div>
+                <div class="faculty-benefits">
+                    <div class="benefits-title">Faculty Benefits</div>
+                    <div class="benefits-text">Break down complex research projects into manageable tasks, organize academic workflows, support students with executive function challenges, and improve personal productivity.</div>
+                </div>
+            </div>
+
+            <!-- GROK -->
+            <div class="tool-card" data-pricing="paid">
+                <div class="tool-header">
+                    <h3 class="tool-name">GROK</h3>
+                    <div class="pricing">
+                        <span class="price-tag paid">Paid</span>
+                        <div class="price-details">X Premium+ required</div>
+                    </div>
+                </div>
+                <div class="description">
+                    X's AI assistant with real-time web access, designed for conversational AI with up-to-date information and unique personality traits.
+                </div>
+                <div class="faculty-benefits">
+                    <div class="benefits-title">Faculty Benefits</div>
+                    <div class="benefits-text">Access current events and trends for course content, engage with real-time information for research, and incorporate contemporary examples into academic discussions.</div>
+                </div>
+            </div>
+
+            <!-- Harmonize -->
+            <div class="tool-card" data-pricing="paid">
+                <div class="tool-header">
+                    <h3 class="tool-name">Harmonize</h3>
+                    <div class="pricing">
+                        <span class="price-tag paid">Paid</span>
+                        <div class="price-details">Custom pricing</div>
+                    </div>
+                </div>
+                <div class="description">
+                    AI-powered collaboration platform that streamlines team communication, project management, and workflow optimization for educational institutions.
+                </div>
+                <div class="faculty-benefits">
+                    <div class="benefits-title">Faculty Benefits</div>
+                    <div class="benefits-text">Coordinate research collaborations, manage department projects efficiently, streamline committee work, and improve communication with colleagues and students.</div>
+                </div>
+            </div>
+
+            <!-- Heygen Avatar Generator -->
+            <div class="tool-card" data-pricing="freemium">
+                <div class="tool-header">
+                    <h3 class="tool-name">Heygen Avatar Generator</h3>
+                    <div class="pricing">
+                        <span class="price-tag freemium">Freemium</span>
+                        <div class="price-details">Creator: $24/month<br>Business: $120/month</div>
+                    </div>
+                </div>
+                <div class="description">
+                    AI-powered platform for creating realistic AI avatars and videos for presentations, courses, and digital content creation.
+                </div>
+                <div class="faculty-benefits">
+                    <div class="benefits-title">Faculty Benefits</div>
+                    <div class="benefits-text">Create engaging video lectures, develop multilingual course content, produce consistent video presentations, and enhance distance learning experiences.</div>
+                </div>
+            </div>
+
+            <!-- Ideogram 2.0 -->
+            <div class="tool-card" data-pricing="freemium">
+                <div class="tool-header">
+                    <h3 class="tool-name">Ideogram 2.0</h3>
+                    <div class="pricing">
+                        <span class="price-tag freemium">Freemium</span>
+                        <div class="price-details">Plus: $8/month<br>Pro: $20/month</div>
+                    </div>
+                </div>
+                <div class="description">
+                    Advanced AI image generation platform specializing in creating high-quality images with accurate text rendering and creative design capabilities.
+                </div>
+                <div class="faculty-benefits">
+                    <div class="benefits-title">Faculty Benefits</div>
+                    <div class="benefits-text">Create custom educational graphics, design course materials, generate visual aids for presentations, and produce illustrations for academic publications.</div>
+                </div>
+            </div>
+
+            <!-- Invideo -->
+            <div class="tool-card" data-pricing="freemium">
+                <div class="tool-header">
+                    <h3 class="tool-name">Invideo</h3>
+                    <div class="pricing">
+                        <span class="price-tag freemium">Freemium</span>
+                        <div class="price-details">Plus: $15/month<br>Max: $30/month</div>
+                    </div>
+                </div>
+                <div class="description">
+                    AI-powered video creation platform that transforms text into professional videos with automated editing, voice-overs, and visual elements.
+                </div>
+                <div class="faculty-benefits">
+                    <div class="benefits-title">Faculty Benefits</div>
+                    <div class="benefits-text">Create engaging educational videos, develop course promotional materials, produce lecture summaries, and enhance online learning with multimedia content.</div>
+                </div>
+            </div>
+
+            <!-- kinetix.tech -->
+            <div class="tool-card" data-pricing="freemium">
+                <div class="tool-header">
+                    <h3 class="tool-name">kinetix.tech</h3>
+                    <div class="pricing">
+                        <span class="price-tag freemium">Freemium</span>
+                        <div class="price-details">Pro features available</div>
+                    </div>
+                </div>
+                <div class="description">
+                    AI-powered animation platform that creates 3D animations and avatars from simple inputs, focusing on motion capture and character animation.
+                </div>
+                <div class="faculty-benefits">
+                    <div class="benefits-title">Faculty Benefits</div>
+                    <div class="benefits-text">Create animated content for courses, develop engaging visual demonstrations, produce interactive educational materials, and enhance STEM education with 3D animations.</div>
+                </div>
+            </div>
+
+            <!-- Learvo -->
+            <div class="tool-card" data-pricing="paid">
+                <div class="tool-header">
+                    <h3 class="tool-name">Learvo</h3>
+                    <div class="pricing">
+                        <span class="price-tag paid">Paid</span>
+                        <div class="price-details">Subscription required</div>
+                    </div>
+                </div>
+                <div class="description">
+                    AI-powered learning management platform that personalizes educational content and provides adaptive learning experiences for students.
+                </div>
+                <div class="faculty-benefits">
+                    <div class="benefits-title">Faculty Benefits</div>
+                    <div class="benefits-text">Personalize learning paths for students, track learning progress effectively, identify struggling students early, and optimize course delivery based on analytics.</div>
+                </div>
+            </div>
+
+            <!-- Mapify -->
+            <div class="tool-card" data-pricing="freemium">
+                <div class="tool-header">
+                    <h3 class="tool-name"><a href="https://mapify.so/" target="_blank">Mapify</a></h3>
+                    <div class="pricing">
+                        <span class="price-tag freemium">Freemium</span>
+                        <div class="price-details">Pro: $5.99/month</div>
+                    </div>
+                </div>
+                <div class="description">
+                    AI-powered mind mapping and visualization tool that converts documents and ideas into interactive visual maps and knowledge graphs.
+                </div>
+                <div class="faculty-benefits">
+                    <div class="benefits-title">Faculty Benefits</div>
+                    <div class="benefits-text">Visualize complex course concepts, create interactive study guides, map research connections, and help students understand relationships between topics.</div>
+                </div>
+            </div>
+
+            <!-- Napkin -->
+            <div class="tool-card" data-pricing="freemium">
+                <div class="tool-header">
+                    <h3 class="tool-name"><a href="https://napkin.ai/" target="_blank">Napkin</a></h3>
+                    <div class="pricing">
+                        <span class="price-tag freemium">Freemium</span>
+                        <div class="price-details">Pro: $20/month</div>
+                    </div>
+                </div>
+                <div class="description">
+                    AI-powered visual storytelling platform that transforms text into engaging infographics, diagrams, and visual content automatically.
+                </div>
+                <div class="faculty-benefits">
+                    <div class="benefits-title">Faculty Benefits</div>
+                    <div class="benefits-text">Create compelling visual content for lectures, transform research findings into accessible graphics, and enhance student comprehension through visual learning materials.</div>
+                </div>
+            </div>
+
+            <!-- NoteGPT -->
+            <div class="tool-card" data-pricing="freemium">
+                <div class="tool-header">
+                    <h3 class="tool-name"><a href="https://notegpt.io/" target="_blank">NoteGPT</a></h3>
+                    <div class="pricing">
+                        <span class="price-tag freemium">Freemium</span>
+                        <div class="price-details">Pro: $19/month</div>
+                    </div>
+                </div>
+                <div class="description">
+                    AI-powered note-taking and summarization tool that extracts key insights from videos, documents, and audio content for efficient learning.
+                </div>
+                <div class="faculty-benefits">
+                    <div class="benefits-title">Faculty Benefits</div>
+                    <div class="benefits-text">Summarize conference presentations, extract key points from research videos, create lecture notes from recorded content, and streamline content preparation.</div>
+                </div>
+            </div>
+
+            <!-- Otter AI -->
+            <div class="tool-card" data-pricing="freemium">
+                <div class="tool-header">
+                    <h3 class="tool-name"><a href="https://otter.ai/" target="_blank">Otter AI</a></h3>
+                    <div class="pricing">
+                        <span class="price-tag freemium">Freemium</span>
+                        <div class="price-details">Pro: $10/month<br>Business: $20/month</div>
+                    </div>
+                </div>
+                <div class="description">
+                    AI-powered transcription service that converts speech to text in real-time, with features for meeting notes, lecture recordings, and collaboration.
+                </div>
+                <div class="faculty-benefits">
+                    <div class="benefits-title">Faculty Benefits</div>
+                    <div class="benefits-text">Transcribe lectures automatically, create accessible content for students, document research interviews, and maintain accurate records of academic meetings.</div>
+                </div>
+            </div>
+
+            <!-- Packback -->
+            <div class="tool-card" data-pricing="paid">
+                <div class="tool-header">
+                    <h3 class="tool-name"><a href="https://packback.co/" target="_blank">Packback</a></h3>
+                    <div class="pricing">
+                        <span class="price-tag paid">Paid</span>
+                        <div class="price-details">Contact for pricing</div>
+                    </div>
+                </div>
+                <div class="description">
+                    AI-powered discussion platform that promotes curiosity-driven learning through intelligent question prompting and peer interaction moderation.
+                </div>
+                <div class="faculty-benefits">
+                    <div class="benefits-title">Faculty Benefits</div>
+                    <div class="benefits-text">Facilitate meaningful class discussions, encourage critical thinking, reduce moderation workload, and track student engagement in course conversations.</div>
+                </div>
+            </div>
+
+            <!-- Perplexity -->
+            <div class="tool-card" data-pricing="freemium">
+                <div class="tool-header">
+                    <h3 class="tool-name"><a href="https://perplexity.ai/" target="_blank">Perplexity</a></h3>
+                    <div class="pricing">
+                        <span class="price-tag freemium">Freemium</span>
+                        <div class="price-details">Pro: $20/month</div>
+                    </div>
+                </div>
+                <div class="description">
+                    AI-powered research engine that provides real-time web search with citations, combining conversational AI with up-to-date information retrieval.
+                </div>
+                <div class="faculty-benefits">
+                    <div class="benefits-title">Faculty Benefits</div>
+                    <div class="benefits-text">Conduct preliminary research quickly, verify current information with sources, stay updated on field developments, and gather evidence-based answers for teaching.</div>
+                </div>
+            </div>
+
+            <!-- Perusall -->
+            <div class="tool-card" data-pricing="freemium">
+                <div class="tool-header">
+                    <h3 class="tool-name"><a href="https://perusall.com/" target="_blank">Perusall</a></h3>
+                    <div class="pricing">
+                        <span class="price-tag freemium">Freemium</span>
+                        <div class="price-details">Premium features available</div>
+                    </div>
+                </div>
+                <div class="description">
+                    AI-enhanced social reading platform that facilitates collaborative annotation and discussion of course materials with intelligent engagement tracking.
+                </div>
+                <div class="faculty-benefits">
+                    <div class="benefits-title">Faculty Benefits</div>
+                    <div class="benefits-text">Monitor student reading comprehension, facilitate collaborative learning, automate reading assignment grading, and gain insights into student understanding.</div>
+                </div>
+            </div>
+
+            <!-- Plus AI -->
+            <div class="tool-card" data-pricing="freemium">
+                <div class="tool-header">
+                    <h3 class="tool-name"><a href="https://plusdocs.com/" target="_blank">Plus AI</a></h3>
+                    <div class="pricing">
+                        <span class="price-tag freemium">Freemium</span>
+                        <div class="price-details">Pro: $10/month</div>
+                    </div>
+                </div>
+                <div class="description">
+                    AI-powered Google Slides add-on that creates presentations from prompts, outlines, or documents with smart formatting and design suggestions.
+                </div>
+                <div class="faculty-benefits">
+                    <div class="benefits-title">Faculty Benefits</div>
+                    <div class="benefits-text">Generate course presentations quickly, create consistent slide designs, convert research documents to presentations, and save time on visual formatting.</div>
+                </div>
+            </div>
+
+            <!-- Poe -->
+            <div class="tool-card" data-pricing="freemium">
+                <div class="tool-header">
+                    <h3 class="tool-name"><a href="https://poe.com/" target="_blank">Poe</a></h3>
+                    <div class="pricing">
+                        <span class="price-tag freemium">Freemium</span>
+                        <div class="price-details">Subscription: $19.99/month</div>
+                    </div>
+                </div>
+                <div class="description">
+                    Platform providing access to multiple AI models (GPT, Claude, etc.) in one interface, allowing comparison and specialized use cases.
+                </div>
+                <div class="faculty-benefits">
+                    <div class="benefits-title">Faculty Benefits</div>
+                    <div class="benefits-text">Compare AI responses for research, access specialized models for different tasks, experiment with various AI approaches, and find the best AI for specific academic needs.</div>
+                </div>
+            </div>
+
+            <!-- Power BI -->
+            <div class="tool-card" data-pricing="freemium">
+                <div class="tool-header">
+                    <h3 class="tool-name"><a href="https://powerbi.microsoft.com/" target="_blank">Power BI</a></h3>
+                    <div class="pricing">
+                        <span class="price-tag freemium">Freemium</span>
+                        <div class="price-details">Pro: $10/user/month<br>Premium: $20/user/month</div>
+                    </div>
+                </div>
+                <div class="description">
+                    Microsoft's business analytics platform with AI-powered data visualization, automated insights, and natural language querying capabilities.
+                </div>
+                <div class="faculty-benefits">
+                    <div class="benefits-title">Faculty Benefits</div>
+                    <div class="benefits-text">Analyze student performance data, create research visualizations, track institutional metrics, and present data-driven insights for academic decision-making.</div>
+                </div>
+            </div>
+
+            <!-- Recall -->
+            <div class="tool-card" data-pricing="freemium">
+                <div class="tool-header">
+                    <h3 class="tool-name"><a href="https://recallai.com/" target="_blank">Recall</a></h3>
+                    <div class="pricing">
+                        <span class="price-tag freemium">Freemium</span>
+                        <div class="price-details">Plus: $8/month</div>
+                    </div>
+                </div>
+                <div class="description">
+                    AI-powered knowledge management tool that automatically summarizes and organizes information from articles, videos, and documents.
+                </div>
+                <div class="faculty-benefits">
+                    <div class="benefits-title">Faculty Benefits</div>
+                    <div class="benefits-text">Organize research materials efficiently, maintain a knowledge base of important findings, quickly retrieve relevant information, and streamline literature review processes.</div>
+                </div>
+            </div>
+
+            <!-- Scispace -->
+            <div class="tool-card" data-pricing="freemium">
+                <div class="tool-header">
+                    <h3 class="tool-name"><a href="https://typeset.io/" target="_blank">Scispace</a></h3>
+                    <div class="pricing">
+                        <span class="price-tag freemium">Freemium</span>
+                        <div class="price-details">Premium: $12/month</div>
+                    </div>
+                </div>
+                <div class="description">
+                    AI-powered research platform that helps read, understand, and analyze scientific papers with intelligent highlighting and explanation features.
+                </div>
+                <div class="faculty-benefits">
+                    <div class="benefits-title">Faculty Benefits</div>
+                    <div class="benefits-text">Understand complex research papers quickly, explain difficult concepts to students, stay current with literature, and accelerate research comprehension.</div>
+                </div>
+            </div>
+
+            <!-- SpeechMA AI -->
+            <div class="tool-card" data-pricing="freemium">
+                <div class="tool-header">
+                    <h3 class="tool-name"><a href="https://speechma.ai/" target="_blank">SpeechMA AI</a></h3>
+                    <div class="pricing">
+                        <span class="price-tag freemium">Freemium</span>
+                        <div class="price-details">Pro features available</div>
+                    </div>
+                </div>
+                <div class="description">
+                    AI-powered speech analysis and improvement platform that provides feedback on presentation skills, pronunciation, and communication effectiveness.
+                </div>
+                <div class="faculty-benefits">
+                    <div class="benefits-title">Faculty Benefits</div>
+                    <div class="benefits-text">Improve lecture delivery, help students develop presentation skills, analyze speaking patterns for effectiveness, and enhance communication in academic settings.</div>
+                </div>
+            </div>
+
+            <!-- Teachable Machine -->
+            <div class="tool-card" data-pricing="free">
+                <div class="tool-header">
+                    <h3 class="tool-name"><a href="https://teachablemachine.withgoogle.com/" target="_blank">Teachable Machine</a></h3>
+                    <div class="pricing">
+                        <span class="price-tag free">Free</span>
+                    </div>
+                </div>
+                <div class="description">
+                    Google's web-based tool for creating machine learning models without coding, supporting image, sound, and pose recognition training.
+                </div>
+                <div class="faculty-benefits">
+                    <div class="benefits-title">Faculty Benefits</div>
+                    <div class="benefits-text">Teach AI/ML concepts hands-on, create interactive demonstrations, develop custom recognition tools for courses, and make machine learning accessible to students.</div>
+                </div>
+            </div>
+
+            <!-- Voice Thread -->
+            <div class="tool-card" data-pricing="paid">
+                <div class="tool-header">
+                    <h3 class="tool-name"><a href="https://voicethread.com/" target="_blank">Voice Thread</a></h3>
+                    <div class="pricing">
+                        <span class="price-tag paid">Paid</span>
+                        <div class="price-details">K-12: $79/year<br>Higher Ed: Contact for pricing</div>
+                    </div>
+                </div>
+                <div class="description">
+                    Interactive multimedia platform that enables asynchronous conversations around images, documents, and videos with voice, text, and video comments.
+                </div>
+                <div class="faculty-benefits">
+                    <div class="benefits-title">Faculty Benefits</div>
+                    <div class="benefits-text">Create engaging discussion activities, facilitate peer review processes, accommodate different learning styles, and maintain rich conversation records.</div>
+                </div>
+            </div>
+
+            <!-- Yellowdig -->
+            <div class="tool-card" data-pricing="paid">
+                <div class="tool-header">
+                    <h3 class="tool-name"><a href="https://yellowdig.com/" target="_blank">Yellowdig</a></h3>
+                    <div class="pricing">
+                        <span class="price-tag paid">Paid</span>
+                        <div class="price-details">Contact for pricing</div>
+                    </div>
+                </div>
+                <div class="description">
+                    Gamified social learning platform that uses AI to enhance student engagement through points, badges, and community-driven discussions.
+                </div>
+                <div class="faculty-benefits">
+                    <div class="benefits-title">Faculty Benefits</div>
+                    <div class="benefits-text">Increase student participation, create engaging online communities, track engagement metrics, and foster collaborative learning environments.</div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="no-results" id="noResults" style="display: none;">
+            No tools match your current search criteria. Try adjusting your search terms or filters.
+        </div>
+    </div>
+
+    <script>
+        const searchInput = document.getElementById('searchInput');
+        const toolCards = document.querySelectorAll('.tool-card');
+        const filterButtons = document.querySelectorAll('.filter-btn');
+        const noResults = document.getElementById('noResults');
+        
+        let currentFilter = 'all';
+        
+        // Search functionality
+        searchInput.addEventListener('input', function() {
+            filterTools();
+        });
+        
+        // Filter functionality
+        filterButtons.forEach(button => {
+            button.addEventListener('click', function() {
+                filterButtons.forEach(btn => btn.classList.remove('active'));
+                this.classList.add('active');
+                currentFilter = this.dataset.filter;
+                filterTools();
+            });
+        });
+        
+        function filterTools() {
+            const searchTerm = searchInput.value.toLowerCase();
+            let visibleCount = 0;
+            
+            toolCards.forEach(card => {
+                const toolName = card.querySelector('.tool-name').textContent.toLowerCase();
+                const description = card.querySelector('.description').textContent.toLowerCase();
+                const benefits = card.querySelector('.benefits-text').textContent.toLowerCase();
+                const pricing = card.dataset.pricing;
+                
+                const matchesSearch = toolName.includes(searchTerm) || 
+                                    description.includes(searchTerm) || 
+                                    benefits.includes(searchTerm);
+                
+                const matchesFilter = currentFilter === 'all' || pricing === currentFilter;
+                
+                if (matchesSearch && matchesFilter) {
+                    card.style.display = 'block';
+                    visibleCount++;
+                } else {
+                    card.style.display = 'none';
+                }
+            });
+            
+            noResults.style.display = visibleCount === 0 ? 'block' : 'none';
+        }
+        
+        // Add smooth scrolling for better UX
+        document.querySelectorAll('.tool-card').forEach(card => {
+            card.addEventListener('mouseenter', function() {
+                this.style.transform = 'translateY(-5px)';
+            });
+            
+            card.addEventListener('mouseleave', function() {
+                this.style.transform = 'translateY(0)';
+            });
+        });
+    </script>
+</body>
+</html>
